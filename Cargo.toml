@@ -40,12 +40,19 @@ optional = true
 version = "0.6"
 default-features = false
 
+[dependencies.serde]
+version = "1.0.125"
+default-features = false
+optional = true
+features = [ "derive" ] # std?
+
 [dependencies.subtle]
 version = "2.2.1"
 default-features = false
 
 [features]
-default = ["groups", "pairings", "alloc", "endo"]
+default = ["groups", "pairings", "alloc", "endo", "serdes"]
+serdes = ["serde"]
 groups = ["group"]
 pairings = ["groups", "pairing"]
 alloc = ["group/alloc"]

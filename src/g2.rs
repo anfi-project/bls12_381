@@ -999,6 +999,7 @@ impl G2Projective {
     }
 }
 
+/// Compressed version of a G2 element
 pub struct G2Compressed([u8; 96]);
 
 impl fmt::Debug for G2Compressed {

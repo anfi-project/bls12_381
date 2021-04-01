@@ -8,7 +8,6 @@
 //! * This implementation does not require the Rust standard library.
 //! * All operations are constant time unless explicitly noted.
 
-#![no_std]
 #![cfg_attr(docsrs, feature(doc_cfg))]
 // Catch documentation errors caused by code changes.
 #![deny(intra_doc_link_resolution_failure)]
@@ -58,9 +57,9 @@ mod g1;
 mod g2;
 
 #[cfg(feature = "groups")]
-pub use g1::{G1Affine, G1Projective};
+pub use g1::{G1Affine, G1Projective, G1Compressed};
 #[cfg(feature = "groups")]
-pub use g2::{G2Affine, G2Projective};
+pub use g2::{G2Affine, G2Projective, G2Compressed};
 
 #[cfg(feature = "groups")]
 mod fp12;
@@ -81,3 +80,9 @@ pub use pairings::{pairing, Bls12, Gt, MillerLoopResult};
 
 #[cfg(all(feature = "pairings", feature = "alloc"))]
 pub use pairings::{multi_miller_loop, G2Prepared};
+
+#[cfg(feature = "serdes")]
+mod serdes;
+
+#[cfg(feature = "serdes")]
+pub use serdes::*;

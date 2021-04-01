@@ -811,6 +811,7 @@ impl G1Projective {
     }
 }
 
+/// Compressed version of a G1 element
 pub struct G1Compressed([u8; 48]);
 
 impl fmt::Debug for G1Compressed {
