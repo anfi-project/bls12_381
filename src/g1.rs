@@ -17,6 +17,12 @@ use group::WnafGroup;
 use crate::fp::Fp;
 use crate::Scalar;
 
+/// The number of bytes required to represent a compressed element of G1
+pub const G1COMP_BYTES: usize = 48;
+
+/// The number of bytes required to represent an uncompressed element of G1
+pub const G1UNCOMP_BYTES: usize = 96;
+
 /// This is an element of $\mathbb{G}_1$ represented in the affine coordinate space.
 /// It is ideal to keep elements in this representation to reduce memory usage and
 /// improve performance through the use of mixed curve model arithmetic.

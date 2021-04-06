@@ -18,6 +18,12 @@ use crate::fp::Fp;
 use crate::fp2::Fp2;
 use crate::Scalar;
 
+/// The number of bytes required to represent a compressed element of G2
+pub const G2COMP_BYTES: usize = 96;
+
+/// The number of bytes required to represent an uncompressed element of G2
+pub const G2UNCOMP_BYTES: usize = 192;
+
 /// This is an element of $\mathbb{G}_2$ represented in the affine coordinate space.
 /// It is ideal to keep elements in this representation to reduce memory usage and
 /// improve performance through the use of mixed curve model arithmetic.

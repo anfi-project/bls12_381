@@ -57,9 +57,9 @@ mod g1;
 mod g2;
 
 #[cfg(feature = "groups")]
-pub use g1::{G1Affine, G1Projective, G1Compressed};
+pub use g1::{G1Affine, G1Projective, G1Compressed, G1COMP_BYTES, G1UNCOMP_BYTES};
 #[cfg(feature = "groups")]
-pub use g2::{G2Affine, G2Projective, G2Compressed};
+pub use g2::{G2Affine, G2Projective, G2Compressed, G2COMP_BYTES, G2UNCOMP_BYTES};
 
 #[cfg(feature = "groups")]
 mod fp12;
