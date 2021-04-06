@@ -595,6 +595,20 @@ impl Fp {
 
         Self::montgomery_reduce(t0, t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11)
     }
+
+    /// Returns either 0 or 1 indicating the "sign" of x, where sgn0(x) == 1
+    /// just when x is "negative". (In other words, this function always considers 0 to be positive.)
+    /// https://tools.ietf.org/html/draft-irtf-cfrg-hash-to-curve-10#section-4.1
+    /// The equivalent for draft 6 would be `lexicographically_largest`.
+    #[cfg(feature = "hash_to_curve")]
+    pub(crate) fn sgn0(&self) -> Choice {
+        // Turn into canonical form by computing
+        // (a.R) / R = a
+        let tmp = Fp::montgomery_reduce(
+            self.0[0], self.0[1], self.0[2], self.0[3], self.0[4], self.0[5], 0, 0, 0, 0, 0, 0,
+        );
+        Choice::from((tmp.0[0] & 1) as u8)
+    }
 }
 
 #[test]
@@ -913,4 +927,37 @@ fn test_lexicographic_largest() {
         ])
         .lexicographically_largest()
     ));
+}
+
+// p-1 / 2
+#[cfg(all(test, feature = "hash_to_curve"))]
+pub const P_M1_OVER2: Fp = Fp::from_raw_unchecked([
+    0xa1fafffffffe5557u64,
+    0x995bfff976a3fffeu64,
+    0x03f41d24d174ceb4u64,
+    0xf6547998c1995dbdu64,
+    0x778a468f507a6034u64,
+    0x020559931f7f8103u64,
+]);
+
+#[cfg(feature = "hash_to_curve")]
+#[test]
+fn test_sgn0() {
+    use subtle::ConditionallyNegatable;
+
+    assert_eq!(bool::from(Fp::zero().sgn0()), false);
+    assert_eq!(bool::from(Fp::one().sgn0()), true);
+    assert_eq!(bool::from((-Fp::one()).sgn0()), false);
+    assert_eq!(bool::from((-Fp::zero()).sgn0()), false);
+    assert_eq!(bool::from(P_M1_OVER2.sgn0()), true);
+
+    let p_p1_over2 = P_M1_OVER2 + Fp::one();
+    assert_eq!(bool::from(p_p1_over2.sgn0()), false);
+
+    let neg_p_p1_over2 = {
+        let mut tmp = p_p1_over2;
+        tmp.conditional_negate(Choice::from(1u8));
+        tmp
+    };
+    assert_eq!(neg_p_p1_over2, P_M1_OVER2);
 }
