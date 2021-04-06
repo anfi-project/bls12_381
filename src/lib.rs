@@ -45,7 +45,7 @@ pub mod notes {
 
 mod scalar;
 
-pub use scalar::Scalar;
+pub use scalar::{Scalar, SCALAR_BYTES};
 
 #[cfg(feature = "groups")]
 mod fp;

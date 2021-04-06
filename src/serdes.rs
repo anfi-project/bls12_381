@@ -4,7 +4,7 @@ use std::fmt;
 use serde::{Deserialize, Deserializer, Serialize, Serializer};
 use serde::de::{Error, Visitor};
 
-use crate::{Scalar, G1Affine, G1Compressed};
+use crate::{Scalar, G1Affine};
 const SCALAR_SIZE: usize = 32;
 const G1_SIZE: usize = 48;
 
