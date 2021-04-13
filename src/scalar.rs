@@ -718,6 +718,14 @@ impl PrimeField for Scalar {
         }
     }
 
+    fn from_repr_reduced(r: Self::Repr) -> Self {
+        let mut bytes = [0u8; 64];
+        for i in 0..32 {
+            bytes[i] = r[i];
+        }
+        Self::from_bytes_wide(&bytes)
+    }
+
     fn to_repr(&self) -> Self::Repr {
         self.to_bytes()
     }

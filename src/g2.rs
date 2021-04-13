@@ -1032,6 +1032,12 @@ impl AsMut<[u8]> for G2Compressed {
     }
 }
 
+impl From<([u8; 96])> for G2Compressed {
+    fn from(bytes: [u8; 96]) -> Self {
+        G2Compressed(bytes)
+    }
+}
+
 pub struct G2Uncompressed([u8; 192]);
 
 impl fmt::Debug for G2Uncompressed {

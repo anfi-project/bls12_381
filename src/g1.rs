@@ -844,6 +844,12 @@ impl AsMut<[u8]> for G1Compressed {
     }
 }
 
+impl From<([u8; 48])> for G1Compressed {
+    fn from(bytes: [u8; 48]) -> Self {
+        G1Compressed(bytes)
+    }
+}
+
 pub struct G1Uncompressed([u8; 96]);
 
 impl fmt::Debug for G1Uncompressed {
