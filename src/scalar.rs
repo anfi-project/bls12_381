@@ -679,7 +679,7 @@ impl<'a> From<&'a Scalar> for [u8; 32] {
 }
 
 impl Field for Scalar {
-    fn random(mut rng: impl RngCore) -> Self {
+    fn random<R>(rng: &mut R) -> Self where R: RngCore {
         let mut buf = [0; 64];
         rng.fill_bytes(&mut buf);
         Self::from_bytes_wide(&buf)
@@ -725,6 +725,10 @@ type ReprBits = [u64; 4];
 impl PrimeField for Scalar {
     type Repr = [u8; 32];
     type ReprBits = ReprBits;
+
+    /// Constant representing the modulus
+    /// q = 0x73eda753299d7d483339d80809a1d80553bda402fffe5bfeffffffff00000001
+    const MODULUS: Scalar = MODULUS;
 
     fn from_repr(r: Self::Repr) -> Option<Self> {
         let res = Self::from_bytes(&r);
