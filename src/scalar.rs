@@ -24,7 +24,7 @@ pub struct Scalar(pub(crate) [u64; 4]);
 
 impl fmt::Debug for Scalar {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        let tmp = self.to_bytes();
+        let tmp = self.to_bytes_raw();
         write!(f, "0x")?;
         for &b in tmp.iter().rev() {
             write!(f, "{:02x}", b)?;
@@ -35,7 +35,12 @@ impl fmt::Debug for Scalar {
 
 impl fmt::Display for Scalar {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "{:?}", self)
+        let tmp = self.to_bytes();
+        write!(f, "0x")?;
+        for &b in tmp.iter().rev() {
+            write!(f, "{:02x}", b)?;
+        }
+        Ok(())
     }
 }
 
@@ -264,6 +269,18 @@ impl Scalar {
         res[8..16].copy_from_slice(&tmp.0[1].to_le_bytes());
         res[16..24].copy_from_slice(&tmp.0[2].to_le_bytes());
         res[24..32].copy_from_slice(&tmp.0[3].to_le_bytes());
+
+        res
+    }
+
+    /// Converts a `Scalar`, not necessarily canonical, into a byte representation
+    /// in little-endian byte order.
+    pub fn to_bytes_raw(&self) -> [u8; 32] {
+        let mut res = [0; 32];
+        res[0..8].copy_from_slice(&self.0[0].to_le_bytes());
+        res[8..16].copy_from_slice(&self.0[1].to_le_bytes());
+        res[16..24].copy_from_slice(&self.0[2].to_le_bytes());
+        res[24..32].copy_from_slice(&self.0[3].to_le_bytes());
 
         res
     }

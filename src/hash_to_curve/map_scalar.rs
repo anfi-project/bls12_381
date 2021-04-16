@@ -45,7 +45,7 @@ fn test_hash_to_scalar() {
         ),
     ];
     for (input, expected) in tests {
-        let output = format!("{:?}", Scalar::from_okm(GenericArray::from_slice(input)));
+        let output = format!("{}", Scalar::from_okm(GenericArray::from_slice(input)));
         assert_eq!(&output, expected);
     }
 }
