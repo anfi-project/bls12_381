@@ -7,7 +7,10 @@ use subtle::{Choice, ConditionallySelectable, ConstantTimeEq, CtOption};
 
 use crate::fp::Fp;
 
-#[derive(Copy, Clone)]
+#[cfg(feature = "serde")]
+use serde::{Deserialize, Serialize};
+
+#[derive(Copy, Clone, Serialize, Deserialize)]
 pub struct Fp2 {
     pub c0: Fp,
     pub c1: Fp,
