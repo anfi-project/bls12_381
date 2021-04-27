@@ -760,7 +760,7 @@ impl PairingCurveAffine for G2Affine {
 
 /// A [`pairing::Engine`] for BLS12-381 pairing operations.
 #[cfg_attr(docsrs, doc(cfg(feature = "pairings")))]
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, Serialize, Deserialize)] // TODO why did we need to add serde to this!?  Came because the messages in chl05 refused to serialize for some reason...
 pub struct Bls12;
 
 impl Engine for Bls12 {

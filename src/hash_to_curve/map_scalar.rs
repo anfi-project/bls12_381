@@ -4,6 +4,8 @@ use super::HashToField;
 use crate::generic_array::{typenum::U48, GenericArray};
 use crate::scalar::Scalar;
 
+use ff::PrimeField;
+
 impl HashToField for Scalar {
     type InputLength = U48;
     type Pt = Self;
@@ -11,10 +13,14 @@ impl HashToField for Scalar {
     fn from_okm(okm: &GenericArray<u8, U48>) -> Scalar {
         const F_2_192: Scalar = Scalar::from_raw([0, 0, 0, 1]);
 
+        eprint!("okm: {:?}\n", okm);
         let mut bs = [0u8; 32];
         bs[8..32].copy_from_slice(&okm[0..24]);
+        eprint!("bs1: {:?}\n", bs);
         bs.reverse(); // into little endian
+        eprint!("bs2: {:?}\n", bs);
         let db = Scalar::from_bytes(&bs).unwrap();
+        eprint!("db: {:?}\n", db);
 
         for i in 0..bs.len() {
             // clear previously-used buffer (this gets optimized to a single memset)
@@ -23,6 +29,9 @@ impl HashToField for Scalar {
         bs[8..32].copy_from_slice(&okm[24..48]);
         bs.reverse(); // into little endian
         let da = Scalar::from_bytes(&bs).unwrap();
+        eprint!("da: {:?}\n", da);
+        eprint!("Md: {:?}\n", Scalar::MODULUS);
+        
 
         db * F_2_192 + da
     }

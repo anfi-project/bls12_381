@@ -1,5 +1,10 @@
 # bls12_381 [![Crates.io](https://img.shields.io/crates/v/bls12_381.svg)](https://crates.io/crates/bls12_381) #
 
+serde Support from github.com:jstuczyn/bls12_381
+serde for Gt adapted from that code
+hash-to-curve Support from github.com:andrewwhitehead/bls12_381
+
+
 This crate provides an implementation of the BLS12-381 pairing-friendly elliptic curve construction.
 
 * **This implementation has not been reviewed or audited. Use at your own risk.**
